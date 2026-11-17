@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+:root {
+  --background: #070b14;
+  --surface: #0e1524;
+  --surface-2: #131c30;
+  --foreground: #f2f5f9;
+  --muted: #9aa6b8;
+  --silver: #c9d1dc;
+  --primary: #1f6fff;
+  --primary-hover: #3a82ff;
+  --accent: #5aa9ff;
+  --line: rgba(201, 209, 220, 0.14);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-silver: var(--silver);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-accent: var(--accent);
+  --color-line: var(--line);
+  --font-sans: var(--font-dmsans);
+  --font-display: var(--font-outfit);
+}
+
+@theme {
+  --text-display: clamp(2.75rem, 1.6rem + 5.2vw, 5.75rem);
+  --text-h2: clamp(2.125rem, 1.5rem + 2.8vw, 3.75rem);
+  --text-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+}
+
+html {
+  scroll-padding-top: 88px;
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-dmsans), sans-serif;
+}
+
+::selection {
+  background: var(--primary);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@layer components {
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  min-height: 3.25rem;
+  padding: 0 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition:
+    background-color 160ms var(--ease-out),
+    border-color 160ms var(--ease-out),
+    color 160ms var(--ease-out),
+    transform 140ms var(--ease-out);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-ghost {
+  background: rgba(201, 209, 220, 0.06);
+  border-color: rgba(201, 209, 220, 0.28);
+  color: var(--foreground);
+}
+
+.btn .btn-arrow {
+  transition: transform 160ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    background: var(--primary-hover);
+  }
+  .btn-ghost:hover {
+    background: rgba(201, 209, 220, 0.12);
+    border-color: rgba(201, 209, 220, 0.45);
+  }
+  .btn:hover .btn-arrow {
+    transform: translateX(3px);
+  }
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Browser frame for portfolio shots */
+.browser {
+  border-radius: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.7);
+}
+
+.browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.browser-bar span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(201, 209, 220, 0.25);
+}
+
+.phone {
+  border-radius: 26px;
+  padding: 6px;
+  background: #0b111d;
+  border: 1px solid rgba(201, 209, 220, 0.22);
+  box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.8);
+}
+
+.phone > div {
+  border-radius: 20px;
+  overflow: hidden;
+}
+}
