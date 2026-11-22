@@ -1,7 +1,7 @@
 # DUCH Technologies — Página web
 
 Página de DUCH Technologies: desarrollo web e innovación digital.
-Hecha con Next.js 16, Tailwind CSS 4 y Motion.
+Hecha con Next.js 16, Tailwind CSS 4 y Motion (animaciones y efectos ligados al scroll).
 
 ## Ver la página en tu computadora
 
@@ -24,6 +24,26 @@ Todo está en un solo archivo: `src/lib/negocio.ts`.
 
 Los diseños de ejemplo (hamburguesería, peluquería, inmobiliaria) están en
 `public/proyectos/` y se pueden abrir desde el botón "Ver diseño" del portafolio.
+
+## Dónde está cada sección
+
+Cada sección es un archivo en `src/components/`:
+
+| Sección | Archivo |
+|---|---|
+| Menú superior | `encabezado.tsx` |
+| Portada y animación de partículas | `portada.tsx`, `particulas.tsx` |
+| Servicios | `servicios.tsx` |
+| Portafolio | `portafolio.tsx` |
+| Proceso | `proceso.tsx` |
+| Cotización | `cotizacion.tsx` |
+| Contacto | `contacto.tsx` |
+| Pie de página | `pie.tsx` |
+| Botones con luz | `boton-luz.tsx` |
+| Animaciones reutilizables | `movimiento.tsx` |
+
+Los colores están al inicio de `src/app/globals.css`. Todas las animaciones respetan la
+opción "reducir movimiento" del sistema y los efectos de cursor solo aparecen en computadora.
 
 ## Publicar
 

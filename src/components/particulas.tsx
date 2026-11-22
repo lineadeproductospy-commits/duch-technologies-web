@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 type P3 = [number, number, number];
 type Seg = [number, number, number, number]; // x1 y1 x2 y2
 
-// ---------- Formas (coordenadas de -1 a 1) ----------
+/* ---------------- Formas (coordenadas de -1 a 1) ---------------- */
 
 function arco(cx: number, cy: number, r: number, a0: number, a1: number, pasos = 24): Seg[] {
   const segs: Seg[] = [];
@@ -39,20 +39,19 @@ function rectRedondeado(x: number, y: number, w: number, h: number, r: number): 
   ];
 }
 
-// La "D" del logo: barra vertical, dos tramos rectos y la curva.
+// La "D" del logo
 const FORMA_D: Seg[] = [
   [-0.62, -0.82, -0.62, 0.82],
   [-0.62, -0.82, 0.02, -0.82],
   [-0.62, 0.82, 0.02, 0.82],
   ...arco(0.02, 0, 0.82, -Math.PI / 2, Math.PI / 2, 28),
-  // contorno interior
   [-0.3, -0.5, -0.3, 0.5],
   [-0.3, -0.5, 0.02, -0.5],
   [-0.3, 0.5, 0.02, 0.5],
   ...arco(0.02, 0, 0.5, -Math.PI / 2, Math.PI / 2, 20),
 ];
 
-// Ventana de navegador con una página dentro.
+// Ventana de navegador con una página
 const FORMA_WEB: Seg[] = [
   ...rectRedondeado(-1, -0.66, 2, 1.32, 0.06),
   [-1, -0.46, 1, -0.46],
@@ -68,7 +67,7 @@ const FORMA_WEB: Seg[] = [
   ...rect(0.38, 0.32, 0.44, 0.2),
 ];
 
-// Celular.
+// Celular
 const FORMA_CEL: Seg[] = [
   ...rectRedondeado(-0.44, -0.92, 0.88, 1.84, 0.14),
   [-0.12, -0.8, 0.12, -0.8],
@@ -79,12 +78,8 @@ const FORMA_CEL: Seg[] = [
   [-0.3, 0.66, 0.3, 0.66],
 ];
 
-function largo(s: Seg) {
-  return Math.hypot(s[2] - s[0], s[3] - s[1]);
-}
-
 function muestrearPlano(segs: Seg[], n: number, grosor: number, prof: number): P3[] {
-  const largos = segs.map(largo);
+  const largos = segs.map((s) => Math.hypot(s[2] - s[0], s[3] - s[1]));
   const total = largos.reduce((a, b) => a + b, 0);
   const pts: P3[] = [];
   for (let i = 0; i < n; i++) {
@@ -104,10 +99,10 @@ function muestrearPlano(segs: Seg[], n: number, grosor: number, prof: number): P
 
 function muestrearGlobo(n: number): P3[] {
   const pts: P3[] = [];
+  const inc = 0.4;
   for (let i = 0; i < n; i++) {
-    const enParalelo = Math.random() < 0.5;
     let lat: number, lon: number;
-    if (enParalelo) {
+    if (Math.random() < 0.5) {
       lat = ((Math.floor(Math.random() * 7) - 3) * Math.PI) / 8;
       lon = Math.random() * Math.PI * 2;
     } else {
@@ -118,11 +113,18 @@ function muestrearGlobo(n: number): P3[] {
     const x = r * Math.cos(lat) * Math.sin(lon);
     const y = r * Math.sin(lat);
     const z = r * Math.cos(lat) * Math.cos(lon);
-    // inclinación de ~23° para que se vea como un globo y no como un plato
-    const inc = 0.4;
     pts.push([x, y * Math.cos(inc) - z * Math.sin(inc), y * Math.sin(inc) + z * Math.cos(inc)]);
   }
   return pts;
+}
+
+function nube(n: number): P3[] {
+  return Array.from({ length: n }, () => {
+    const u = Math.random() * Math.PI * 2;
+    const v = Math.acos(2 * Math.random() - 1);
+    const r = 2.2 + Math.random() * 1.6;
+    return [r * Math.sin(v) * Math.cos(u), r * Math.sin(v) * Math.sin(u), r * Math.cos(v)] as P3;
+  });
 }
 
 function mezclar<T>(a: T[]) {
@@ -133,11 +135,11 @@ function mezclar<T>(a: T[]) {
   return a;
 }
 
-const COLORES = ["#1f6fff", "#5aa9ff", "#5aa9ff", "#c9d1dc"];
+const COLORES = ["#2b6bff", "#2b6bff", "#4d84ff", "#3be0ff", "#e8eefc"];
 
-// ---------- Componente ----------
+/* ---------------- Componente ---------------- */
 
-export function Particulas() {
+export function Particulas({ className = "" }: { className?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -146,9 +148,15 @@ export function Particulas() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    let limpiar: (() => void) | undefined;
+    let cancelado = false;
+
+    const iniciar = () => {
+    if (cancelado) return;
     const reducir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const angosto = window.innerWidth < 768;
-    const N = angosto ? 1300 : 2800;
+    const punteroFino = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const angostoInicial = window.innerWidth < 1024;
+    const N = window.innerWidth < 640 ? 950 : angostoInicial ? 1400 : 2800;
 
     const formas: P3[][] = [
       muestrearPlano(FORMA_D, N, 0.07, 0.25),
@@ -156,69 +164,97 @@ export function Particulas() {
       muestrearPlano(FORMA_CEL, N, 0.05, 0.2),
       muestrearGlobo(N),
     ].map((f) => mezclar(f));
+    const origen = nube(N);
 
     const color = Array.from({ length: N }, () => COLORES[Math.floor(Math.random() * COLORES.length)]);
     const retraso = Float32Array.from({ length: N }, () => Math.random() * 0.35);
-    const tam = Float32Array.from({ length: N }, () => 1.1 + Math.random() * 1.5);
+    const tam = Float32Array.from({ length: N }, () => 1 + Math.random() * 1.5);
 
     let ancho = 0;
     let alto = 0;
-    let dpr = 1;
+    let angosto = angostoInicial;
     const ajustar = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const r = canvas.getBoundingClientRect();
       ancho = r.width;
       alto = r.height;
+      angosto = ancho < 1024;
       canvas.width = Math.round(ancho * dpr);
       canvas.height = Math.round(alto * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     ajustar();
 
-    const DURA_FORMA = 4200; // ms quieto en cada forma
-    const DURA_CAMBIO = 1800; // ms de transición
-    const ciclo = DURA_FORMA + DURA_CAMBIO;
+    // Cámara que sigue al cursor
+    let objX = 0;
+    let objY = 0;
+    let camX = 0;
+    let camY = 0;
+    const alMover = (e: PointerEvent) => {
+      objX = (e.clientX / window.innerWidth - 0.5) * 0.7;
+      objY = (e.clientY / window.innerHeight - 0.5) * 0.45;
+    };
 
-    // ease-in-out para el viaje entre formas
+    const ENTRADA = 1700;
+    const DURA_FORMA = 4200;
+    const DURA_CAMBIO = 1800;
+    const ciclo = DURA_FORMA + DURA_CAMBIO;
     const suave = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const salida = (t: number) => 1 - Math.pow(1 - t, 4);
 
     const dibujar = (ms: number) => {
       ctx.clearRect(0, 0, ancho, alto);
-      const escala = Math.min(ancho, alto) * (angosto ? 0.42 : 0.44);
-      const cx = ancho / 2;
-      const cy = alto / 2;
+      const cx = angosto ? ancho / 2 : ancho * 0.7;
+      const cy = angosto ? alto * 0.3 : alto * 0.48;
+      const escala = angosto ? Math.min(ancho, alto) * 0.36 : Math.min(ancho * 0.25, alto * 0.38);
+      const alfaBase = angosto ? 0.5 : 0.9;
 
-      const idx = Math.floor(ms / ciclo) % formas.length;
+      const entrada = salida(Math.min(1, ms / ENTRADA));
+      const t0 = Math.max(0, ms - ENTRADA);
+      const idx = Math.floor(t0 / ciclo) % formas.length;
       const sig = (idx + 1) % formas.length;
-      const enCiclo = ms % ciclo;
+      const enCiclo = t0 % ciclo;
       const progreso = enCiclo < DURA_FORMA ? 0 : (enCiclo - DURA_FORMA) / DURA_CAMBIO;
 
-      const giro = reducir ? 0.35 : Math.sin(ms / 5200) * 0.55 + (idx === 3 ? ms / 6000 : 0);
-      const cos = Math.cos(giro);
-      const sin = Math.sin(giro);
+      camX += (objX - camX) * 0.05;
+      camY += (objY - camY) * 0.05;
+      const giroY = (reducir ? 0.35 : Math.sin(ms / 5200) * 0.5 + (idx === 3 ? t0 / 6000 : 0)) + camX;
+      const giroX = camY;
+      const cY = Math.cos(giroY);
+      const sY = Math.sin(giroY);
+      const cX = Math.cos(giroX);
+      const sX = Math.sin(giroX);
       const A = formas[idx];
       const B = formas[sig];
 
       for (let i = 0; i < N; i++) {
-        let t = progreso === 0 ? 0 : (progreso - retraso[i]) / (1 - 0.35);
+        let t = progreso === 0 ? 0 : (progreso - retraso[i]) / 0.65;
         t = suave(Math.max(0, Math.min(1, t)));
-        // al viajar, cada punto se abre un poco hacia afuera
         const abrir = Math.sin(t * Math.PI) * 0.35;
-        const x0 = A[i][0] + (B[i][0] - A[i][0]) * t;
-        const y0 = A[i][1] + (B[i][1] - A[i][1]) * t;
-        const z0 = A[i][2] + (B[i][2] - A[i][2]) * t;
-        const x = x0 * (1 + abrir);
-        const y = y0 * (1 + abrir);
-        const z = z0 * (1 + abrir);
+        let x = (A[i][0] + (B[i][0] - A[i][0]) * t) * (1 + abrir);
+        let y = (A[i][1] + (B[i][1] - A[i][1]) * t) * (1 + abrir);
+        let z = (A[i][2] + (B[i][2] - A[i][2]) * t) * (1 + abrir);
 
-        const xr = x * cos + z * sin;
-        const zr = -x * sin + z * cos;
-        const persp = 2.6 / (2.6 + zr);
+        if (entrada < 1) {
+          const e = Math.max(0, Math.min(1, (entrada - retraso[i] * 0.6) / 0.8));
+          x = origen[i][0] + (x - origen[i][0]) * e;
+          y = origen[i][1] + (y - origen[i][1]) * e;
+          z = origen[i][2] + (z - origen[i][2]) * e;
+        }
+
+        // rotación Y luego X
+        const xr = x * cY + z * sY;
+        const zr0 = -x * sY + z * cY;
+        const yr = y * cX - zr0 * sX;
+        const zr = y * sX + zr0 * cX;
+
+        const persp = 2.8 / (2.8 + zr);
+        if (persp <= 0) continue;
         const px = cx + xr * escala * persp;
-        const py = cy + y * escala * persp;
+        const py = cy + yr * escala * persp;
         const s = tam[i] * persp;
 
-        ctx.globalAlpha = Math.max(0.25, Math.min(1, 0.85 * persp - zr * 0.2));
+        ctx.globalAlpha = Math.max(0.08, Math.min(1, (0.85 * persp - zr * 0.2) * alfaBase * (0.25 + 0.75 * entrada)));
         ctx.fillStyle = color[i];
         ctx.fillRect(px, py, s, s);
       }
@@ -226,25 +262,25 @@ export function Particulas() {
     };
 
     if (reducir) {
-      dibujar(0);
+      dibujar(ENTRADA);
       const alCambiar = () => {
         ajustar();
-        dibujar(0);
+        dibujar(ENTRADA);
       };
       window.addEventListener("resize", alCambiar);
-      return () => window.removeEventListener("resize", alCambiar);
+      limpiar = () => window.removeEventListener("resize", alCambiar);
+      return;
     }
 
     let raf = 0;
     let visible = true;
     let inicio = performance.now();
-    let pausado = 0;
+    let pausado = performance.now();
 
     const loop = (ahora: number) => {
       dibujar(Math.max(0, ahora - inicio));
       raf = requestAnimationFrame(loop);
     };
-
     const arrancar = () => {
       if (raf || !visible || document.hidden) return;
       inicio += performance.now() - pausado;
@@ -263,21 +299,33 @@ export function Particulas() {
       else parar();
     });
     io.observe(canvas);
-
     const alVisibilidad = () => (document.hidden ? parar() : arrancar());
     document.addEventListener("visibilitychange", alVisibilidad);
     window.addEventListener("resize", ajustar);
+    if (punteroFino) window.addEventListener("pointermove", alMover, { passive: true });
 
-    pausado = performance.now();
     arrancar();
 
-    return () => {
+    limpiar = () => {
       parar();
       io.disconnect();
       document.removeEventListener("visibilitychange", alVisibilidad);
       window.removeEventListener("resize", ajustar);
+      window.removeEventListener("pointermove", alMover);
+    };
+    };
+
+    // Espera a que el navegador termine de cargar lo importante
+    const ric = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 120));
+    const cic = window.cancelIdleCallback ?? window.clearTimeout;
+    const id = ric(iniciar, { timeout: 600 });
+
+    return () => {
+      cancelado = true;
+      cic(id);
+      limpiar?.();
     };
   }, []);
 
-  return <canvas ref={ref} aria-hidden="true" className="absolute inset-0 h-full w-full" />;
+  return <canvas ref={ref} aria-hidden="true" className={`absolute inset-0 h-full w-full ${className}`} />;
 }
