@@ -48,6 +48,7 @@ export function BotonLuz({
 
     let raf = 0;
     let ultimo: PointerEvent | null = null;
+    let proxAnterior = 0;
 
     const actualizar = () => {
       raf = 0;
@@ -59,9 +60,14 @@ export function BotonLuz({
       const ey = Math.max(r.top - py, 0, py - r.bottom);
       const distancia = Math.hypot(ex, ey);
       const prox = Math.max(0, 1 - distancia / 110);
+      // Lejos y ya apagado: no tocar estilos (evita recálculos en toda la página)
+      if (prox === 0 && proxAnterior === 0) return;
+      proxAnterior = prox;
       el.style.setProperty("--prox", prox.toFixed(3));
       el.style.setProperty("--mx", `${px - r.left}px`);
       el.style.setProperty("--my", `${py - r.top}px`);
+      if (prox > 0) el.dataset.cerca = "";
+      else delete el.dataset.cerca;
       if (distancia === 0) {
         x.set((px - (r.left + r.width / 2)) * 0.18);
         y.set((py - (r.top + r.height / 2)) * 0.3);
@@ -76,6 +82,8 @@ export function BotonLuz({
       if (!raf) raf = requestAnimationFrame(actualizar);
     };
     const alSalir = () => {
+      proxAnterior = 0;
+      delete el.dataset.cerca;
       el.style.setProperty("--prox", "0");
       x.set(0);
       y.set(0);

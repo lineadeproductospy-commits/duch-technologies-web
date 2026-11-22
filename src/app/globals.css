@@ -98,6 +98,9 @@ body::after {
 }
 
 @keyframes girar {
+  from {
+    --ang: 0deg;
+  }
   to {
     --ang: 360deg;
   }
@@ -311,12 +314,15 @@ body::after {
     }
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    .btn-luz--primario .btn-luz__borde {
-      animation: girar 5s linear infinite;
-    }
-    .btn-luz--secundario .btn-luz__borde {
-      animation: girar 5s linear infinite;
+  /* El borde de luz gira solo cuando el cursor se acerca: en reposo queda quieto */
+  .btn-luz__borde {
+    --ang: 220deg;
+  }
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+    .btn-luz[data-cerca] .btn-luz__borde,
+    .btn-luz:hover .btn-luz__borde {
+      /* desfase negativo: arranca en 220°, donde descansaba, sin salto */
+      animation: girar 2.8s linear -1.711s infinite;
     }
   }
 

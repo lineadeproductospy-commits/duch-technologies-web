@@ -66,7 +66,7 @@ function GraficoRendimiento() {
 function GraficoSeguridad() {
   return (
     <div aria-hidden="true" className="relative grid h-40 place-items-center">
-      <div className="absolute size-36 rounded-full border border-dashed border-cian/30 motion-safe:animate-[spin_22s_linear_infinite]" />
+      <div className="absolute size-36 rounded-full border border-dashed border-cian/30 transition-transform duration-700 ease-[var(--ease-out)] group-hover:rotate-45" />
       <div className="absolute size-24 rounded-full border border-linea-2" />
       <div className="relative grid size-16 place-items-center rounded-2xl border border-azul/40 bg-azul/15 shadow-[0_0_40px_-8px_var(--azul)] transition-transform duration-500 ease-[var(--ease-out)] group-hover:scale-105">
         <ShieldCheck className="size-8 text-cian" strokeWidth={1.5} />

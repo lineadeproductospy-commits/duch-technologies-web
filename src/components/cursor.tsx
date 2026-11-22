@@ -68,7 +68,8 @@ export function Cursor() {
 
   if (!activo) return null;
 
-  const tam = etiqueta ? 104 : sobreEnlace ? 44 : 28;
+  // Tamaño base 28px; se agranda con transform (no con width/height)
+  const escala = etiqueta ? 104 / 28 : sobreEnlace ? 44 / 28 : 1;
 
   return (
     <motion.div
@@ -76,15 +77,20 @@ export function Cursor() {
       className="pointer-events-none fixed top-0 left-0 z-[75]"
       style={{ transform }}
     >
-      <div
-        className={`grid -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full transition-[width,height,background-color,border-color,opacity] duration-300 ease-[var(--ease-out)] ${
-          etiqueta
-            ? "border border-transparent bg-blanco text-negro"
-            : "border border-blanco/40 bg-transparent"
-        } ${visible ? "opacity-100" : "opacity-0"}`}
-        style={{ width: tam, height: tam }}
-      >
-        {etiqueta && <span className="text-xs font-semibold whitespace-nowrap">{etiqueta}</span>}
+      <div className="relative -translate-x-1/2 -translate-y-1/2">
+        <div
+          className={`size-7 rounded-full transition-[transform,background-color,border-color,opacity] duration-300 ease-[var(--ease-out)] ${
+            etiqueta ? "border border-transparent bg-blanco" : "border border-blanco/40 bg-transparent"
+          } ${visible ? "opacity-100" : "opacity-0"}`}
+          style={{ transform: `scale(${escala})` }}
+        />
+        <span
+          className={`absolute inset-0 grid place-items-center text-xs font-semibold whitespace-nowrap text-negro transition-opacity duration-200 ${
+            etiqueta && visible ? "opacity-100 delay-100" : "opacity-0"
+          }`}
+        >
+          {etiqueta}
+        </span>
       </div>
     </motion.div>
   );

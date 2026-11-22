@@ -91,8 +91,8 @@ export function Contacto() {
         </div>
 
         <motion.div className="relative mx-auto w-full max-w-[460px]" style={{ transform: logoT }}>
-          <div aria-hidden="true" className="absolute inset-[8%] rounded-full bg-azul/40 blur-[70px] motion-safe:animate-[pulso_6s_ease-in-out_infinite]" />
-          <div aria-hidden="true" className="absolute -inset-6 rounded-full border border-linea motion-safe:animate-[spin_40s_linear_infinite] [border-style:dashed]" />
+          <div aria-hidden="true" className="absolute inset-[8%] rounded-full bg-azul/40 blur-[70px]" />
+          <div aria-hidden="true" className="absolute -inset-6 rounded-full border border-dashed border-linea" />
           <Image
             src="/images/logo-duch.webp"
             alt="Logo de DUCH Technologies: desarrollo web e innovación digital"

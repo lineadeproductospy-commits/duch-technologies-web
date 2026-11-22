@@ -61,7 +61,7 @@ function Escena({ p, proporcion }: { p: Proyecto; proporcion: string }) {
 
         {p.imagenVertical ? (
           <motion.div className="absolute inset-0 grid place-items-center p-[8%]" style={{ transform: tWeb }}>
-            <div className="relative h-full max-h-[92%] overflow-hidden rounded-[22px] shadow-[0_40px_90px_-30px_rgba(120,20,70,0.55)] ring-1 ring-black/5 transition-transform duration-700 ease-[var(--ease-out)] group-hover:scale-[1.03]">
+            <div className="relative h-full max-h-[92%] overflow-hidden rounded-[22px] shadow-[0_40px_90px_-30px_rgba(120,20,70,0.55)] ring-1 ring-black/5 transition-transform duration-500 ease-[var(--ease-out)] group-hover:scale-[1.03]">
               <Image
                 src={p.imagenVertical}
                 alt={p.alt}
@@ -75,7 +75,7 @@ function Escena({ p, proporcion }: { p: Proyecto; proporcion: string }) {
         ) : (
           <>
             <motion.div className="absolute top-[13%] left-[7%] w-[86%]" style={{ transform: tWeb }}>
-              <div className="marco-web transition-transform duration-700 ease-[var(--ease-out)] group-hover:scale-[1.02]">
+              <div className="marco-web transition-transform duration-500 ease-[var(--ease-out)] group-hover:scale-[1.02]">
                 <div className="marco-web__barra">
                   <span />
                   <span />
@@ -95,7 +95,7 @@ function Escena({ p, proporcion }: { p: Proyecto; proporcion: string }) {
             </motion.div>
             {p.imagenMovil && (
               <motion.div className="absolute right-[6%] bottom-[-4%] w-[30%] max-w-[260px]" style={{ transform: tCel }}>
-                <div className="marco-cel transition-transform duration-700 ease-[var(--ease-out)] group-hover:-translate-y-2">
+                <div className="marco-cel transition-transform duration-500 ease-[var(--ease-out)] group-hover:-translate-y-2">
                   <div>
                     <Image
                       src={p.imagenMovil}

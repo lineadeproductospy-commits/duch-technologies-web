@@ -207,7 +207,7 @@ export function Particulas({ className = "" }: { className?: string }) {
       const cx = angosto ? ancho / 2 : ancho * 0.7;
       const cy = angosto ? alto * 0.3 : alto * 0.48;
       const escala = angosto ? Math.min(ancho, alto) * 0.36 : Math.min(ancho * 0.25, alto * 0.38);
-      const alfaBase = angosto ? 0.5 : 0.9;
+      const alfaBase = angosto ? 0.38 : 0.9;
 
       const entrada = salida(Math.min(1, ms / ENTRADA));
       const t0 = Math.max(0, ms - ENTRADA);

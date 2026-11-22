@@ -88,7 +88,7 @@ export function Encabezado() {
         className="fixed inset-x-0 top-0 z-50"
       >
         <div
-          className={`transition-[background-color,border-color,backdrop-filter] duration-300 ${
+          className={`transition-[background-color,border-color] duration-300 ${
             conFondo && !abierto
               ? "border-b border-linea bg-negro/55 backdrop-blur-xl backdrop-saturate-150"
               : "border-b border-transparent"
@@ -154,13 +154,13 @@ export function Encabezado() {
               >
                 <span
                   aria-hidden="true"
-                  className={`absolute h-px w-5 bg-blanco transition-transform duration-300 ease-[var(--ease-out)] ${
+                  className={`absolute h-px w-5 bg-blanco transition-transform duration-250 ease-[var(--ease-out)] ${
                     abierto ? "rotate-45" : "-translate-y-[4px]"
                   }`}
                 />
                 <span
                   aria-hidden="true"
-                  className={`absolute h-px w-5 bg-blanco transition-transform duration-300 ease-[var(--ease-out)] ${
+                  className={`absolute h-px w-5 bg-blanco transition-transform duration-250 ease-[var(--ease-out)] ${
                     abierto ? "-rotate-45" : "translate-y-[4px]"
                   }`}
                 />
@@ -180,8 +180,12 @@ export function Encabezado() {
             className="fixed inset-0 z-40 flex flex-col bg-negro/95 pt-[72px] backdrop-blur-2xl lg:hidden"
             initial={reducir ? { opacity: 0 } : { opacity: 0, clipPath: "inset(0 0 100% 0)" }}
             animate={reducir ? { opacity: 1 } : { opacity: 1, clipPath: "inset(0 0 0% 0)" }}
-            exit={reducir ? { opacity: 0 } : { opacity: 0, clipPath: "inset(0 0 100% 0)" }}
-            transition={{ duration: 0.5, ease: EASE_CINE }}
+            exit={
+              reducir
+                ? { opacity: 0, transition: { duration: 0.2 } }
+                : { opacity: 0, clipPath: "inset(0 0 100% 0)", transition: { duration: 0.3, ease: EASE_CINE } }
+            }
+            transition={{ duration: 0.45, ease: EASE_CINE }}
           >
             <div aria-hidden="true" className="luz top-1/4 right-[-20%] h-72 w-72 bg-azul/30" />
             <nav aria-label="Menú móvil" className="contenedor flex flex-1 flex-col justify-center">
