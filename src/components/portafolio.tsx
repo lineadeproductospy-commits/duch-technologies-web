@@ -148,7 +148,7 @@ function Ficha({ p, indice, className = "" }: { p: Proyecto; indice: number; cla
 }
 
 export function Portafolio() {
-  const [magali, brasa, salon, cuadra] = PROYECTOS;
+  const [magali, brasa, salon] = PROYECTOS;
   return (
     <section id="portafolio" className="relative py-28 md:py-40">
       <div className="contenedor">
@@ -161,7 +161,7 @@ export function Portafolio() {
             />
           </div>
           <p className="max-w-[40ch] text-texto-2 lg:pb-3">
-            Una invitación publicada y tres diseños para rubros muy distintos. Cada uno tiene su propio
+            Una invitación publicada y dos diseños para rubros muy distintos. Cada uno tiene su propio
             estilo, porque cada negocio es diferente.
           </p>
         </div>
@@ -183,15 +183,13 @@ export function Portafolio() {
           <Ficha p={brasa} indice={1} className="mt-10 lg:max-w-[60%]" />
         </div>
 
-        {/* 03 y 04 — dos columnas desfasadas */}
-        <div className="mt-28 grid gap-24 md:mt-40 md:grid-cols-2 md:gap-10 lg:gap-16">
-          <div>
-            <Escena p={salon} proporcion="aspect-[4/5]" />
-            <Ficha p={salon} indice={2} className="mt-10" />
+        {/* 03 — imagen a la derecha, ficha fija a la izquierda */}
+        <div className="mt-28 grid gap-10 md:mt-40 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:order-2 lg:col-span-7">
+            <Escena p={salon} proporcion="aspect-[4/5] sm:aspect-[5/5] lg:aspect-[6/7]" />
           </div>
-          <div className="md:mt-48">
-            <Escena p={cuadra} proporcion="aspect-[4/5]" />
-            <Ficha p={cuadra} indice={3} className="mt-10" />
+          <div className="lg:order-1 lg:col-span-5">
+            <Ficha p={salon} indice={2} className="lg:sticky lg:top-40" />
           </div>
         </div>
       </div>

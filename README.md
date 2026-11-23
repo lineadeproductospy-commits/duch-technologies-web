@@ -22,7 +22,7 @@ Todo está en un solo archivo: `src/lib/negocio.ts`.
 - **Portafolio:** la lista `PROYECTOS`. Para agregar uno nuevo, guarda la captura en
   `public/images/portafolio/` y copia el bloque de un proyecto existente.
 
-Los diseños de ejemplo (hamburguesería, peluquería, inmobiliaria) están en
+Los diseños de ejemplo (hamburguesería y peluquería) están en
 `public/proyectos/` y se pueden abrir desde el botón "Ver diseño" del portafolio.
 
 ## Dónde está cada sección

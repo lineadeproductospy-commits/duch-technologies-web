@@ -73,18 +73,6 @@ export const PROYECTOS: Proyecto[] = [
     alt: "Página de la peluquería Salón Lapacho en tonos vino y dorado",
     escena: { fondo: "#2b1020", luz: "#c9a46a", tinta: "clara" },
   },
-  {
-    nombre: "Cuadra Propiedades",
-    rubro: "Inmobiliaria",
-    descripcion:
-      "Propiedades destacadas con precio y metros a la vista, tasaciones sin costo y visitas coordinadas en el día.",
-    estado: "concepto",
-    demo: "/proyectos/cuadra-propiedades/index.html",
-    imagen: "/images/portafolio/inmo.webp",
-    imagenMovil: "/images/portafolio/inmo-movil.webp",
-    alt: "Página de la inmobiliaria Cuadra Propiedades en tonos verde oliva",
-    escena: { fondo: "#e9e4d8", luz: "#3f5a45", tinta: "oscura" },
-  },
 ];
 
 export const PASOS = [
