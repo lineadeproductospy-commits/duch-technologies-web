@@ -1,0 +1,13 @@
+# Revisa cada semana si hay dependencias con vulnerabilidades o desactualizadas
+# y abre un pull request. Nada se publica solo: hay que revisar y unir el PR.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      dependencias:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
