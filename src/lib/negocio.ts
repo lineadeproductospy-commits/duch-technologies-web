@@ -14,7 +14,8 @@ export const SECCIONES = [
   { id: "servicios", texto: "Servicios" },
   { id: "portafolio", texto: "Portafolio" },
   { id: "proceso", texto: "Proceso" },
-  { id: "cotizacion", texto: "Cotización" },
+  { id: "cotizacion", texto: "Precios" },
+  { id: "preguntas", texto: "Preguntas" },
   { id: "contacto", texto: "Contacto" },
 ] as const;
 
@@ -112,4 +113,111 @@ export const INCLUYE = [
   "Adaptación a celular, tablet y computadora",
   "Optimización SEO para aparecer en Google",
   "Ajustes antes de publicar",
+];
+
+/* ---------- Planes y precios ----------
+   Cambia precios y textos aquí. Si "precio" es null, se muestra "A cotizar". */
+export type Plan = {
+  nombre: string;
+  para: string;
+  precio: number | null;
+  /** Texto chico junto al precio */
+  nota: string;
+  incluye: string[];
+  destacado?: boolean;
+  mensaje: string;
+};
+
+export const MONEDA = "USD";
+
+export const PLANES: Plan[] = [
+  {
+    nombre: "Esencial",
+    para: "Emprendedores y negocios que necesitan estar en internet ya.",
+    precio: 85,
+    nota: "pago único",
+    incluye: [
+      "Página de una sección (landing)",
+      "Diseño a medida con tu logo y colores",
+      "Botón directo a tu WhatsApp",
+      "Adaptada a celular, tablet y computadora",
+      "Certificado de seguridad (SSL)",
+      "Publicación en línea",
+    ],
+    mensaje: "Hola DUCH Technologies, me interesa el plan Esencial (desde 85 USD).",
+  },
+  {
+    nombre: "Negocio",
+    para: "Comercios que quieren vender más: menú, catálogo, precios o turnos.",
+    precio: null,
+    nota: "según secciones",
+    destacado: true,
+    incluye: [
+      "Todo lo del plan Esencial",
+      "Varias secciones o páginas",
+      "Menú, catálogo o lista de precios",
+      "Pedidos o reservas por WhatsApp",
+      "Ubicación en Google Maps",
+      "SEO básico para aparecer en Google",
+    ],
+    mensaje: "Hola DUCH Technologies, me interesa el plan Negocio. ¿Me pasan una cotización?",
+  },
+  {
+    nombre: "A medida",
+    para: "Proyectos con funciones propias: tienda, sistema o panel.",
+    precio: null,
+    nota: "proyecto a medida",
+    incluye: [
+      "Tienda en línea o carrito de pedidos",
+      "Panel para editar tus precios y fotos",
+      "Formularios, reservas y calendario",
+      "Conexión con tus herramientas",
+      "Soporte y mejoras continuas",
+    ],
+    mensaje: "Hola DUCH Technologies, tengo un proyecto a medida y quiero cotizarlo.",
+  },
+];
+
+/* ---------- Preguntas frecuentes ---------- */
+export const PREGUNTAS = [
+  {
+    pregunta: "¿Cuánto cuesta una página web?",
+    respuesta:
+      "Las páginas arrancan desde 85 USD con el plan Esencial. Si necesitas más secciones, catálogo, reservas o tienda, te enviamos un presupuesto a medida por WhatsApp, sin compromiso.",
+  },
+  {
+    pregunta: "¿Cuánto tarda en estar lista?",
+    respuesta:
+      "Depende del tamaño del proyecto. Una página simple se entrega rápido; los proyectos más grandes llevan más tiempo. Te confirmamos el plazo exacto junto con la cotización.",
+  },
+  {
+    pregunta: "¿Necesito tener logo o fotos?",
+    respuesta:
+      "No es obligatorio. Si ya tienes logo y fotos, los usamos. Si no, te ayudamos a definir colores y estilo para que tu página se vea profesional.",
+  },
+  {
+    pregunta: "¿Puedo tener mi propio dominio (.com o .com.py)?",
+    respuesta:
+      "Sí. Podemos conectar tu página a un dominio propio. El costo del dominio lo cobra el proveedor que lo registra y se paga aparte.",
+  },
+  {
+    pregunta: "¿Qué pasa si después quiero cambiar precios u horarios?",
+    respuesta:
+      "Nos escribes por WhatsApp y lo actualizamos. No te quedas solo después de publicar.",
+  },
+  {
+    pregunta: "¿Cómo se paga?",
+    respuesta:
+      "Te explicamos la forma de pago y los plazos en la cotización, antes de empezar. Sin letra chica.",
+  },
+];
+
+/* ---------- Opciones del formulario de cotización ---------- */
+export const TIPOS_PROYECTO = [
+  "Página para mi negocio",
+  "Menú o catálogo con pedidos",
+  "Reservas o turnos",
+  "Tienda en línea",
+  "Invitación digital",
+  "Otro",
 ];

@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { ArrowUpRight, Mail } from "lucide-react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useRef, type PointerEvent, type ReactNode } from "react";
 import { BotonLuz } from "./boton-luz";
+import { FormularioCotizacion } from "./formulario";
 import { IconoTikTok, IconoWhatsApp } from "./iconos";
 import { Aparecer, TituloRevelado } from "./movimiento";
 import { EMAIL, TIKTOK_URL, TIKTOK_USUARIO, WHATSAPP_LEGIBLE, linkWhatsApp } from "@/lib/negocio";
@@ -59,7 +59,7 @@ export function Contacto() {
   const ref = useRef<HTMLElement>(null);
   const reducir = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const logoY = useTransform(scrollYProgress, [0, 1], [reducir ? 0 : 80, reducir ? 0 : -80]);
+  const logoY = useTransform(scrollYProgress, [0, 1], [reducir ? 0 : 40, reducir ? 0 : -40]);
   const logoT = useTransform(logoY, (v) => `translateY(${v}px)`);
 
   return (
@@ -90,17 +90,9 @@ export function Contacto() {
           </Aparecer>
         </div>
 
-        <motion.div className="relative mx-auto w-full max-w-[460px]" style={{ transform: logoT }}>
-          <div aria-hidden="true" className="absolute inset-[8%] rounded-full bg-azul/40 blur-[70px]" />
-          <div aria-hidden="true" className="absolute -inset-6 rounded-full border border-dashed border-linea" />
-          <Image
-            src="/images/logo-duch.webp"
-            alt="Logo de DUCH Technologies: desarrollo web e innovación digital"
-            width={1254}
-            height={1254}
-            sizes="(min-width: 1024px) 460px, 80vw"
-            className="relative h-auto w-full rounded-full"
-          />
+        <motion.div className="relative mx-auto w-full max-w-[520px]" style={{ transform: logoT }}>
+          <div aria-hidden="true" className="absolute inset-[10%] rounded-full bg-azul/30 blur-[80px]" />
+          <FormularioCotizacion />
         </motion.div>
       </div>
     </section>

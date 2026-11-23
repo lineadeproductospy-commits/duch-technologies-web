@@ -6,6 +6,7 @@ import { ParrafoScroll, ProgresoScroll } from "@/components/movimiento";
 import { Pie } from "@/components/pie";
 import { Portada } from "@/components/portada";
 import { Portafolio } from "@/components/portafolio";
+import { Preguntas } from "@/components/preguntas";
 import { Proceso } from "@/components/proceso";
 import { Servicios } from "@/components/servicios";
 import { EMAIL, TIKTOK_URL, WHATSAPP } from "@/lib/negocio";
@@ -21,6 +22,8 @@ export default function Home() {
     telephone: `+${WHATSAPP}`,
     email: EMAIL,
     areaServed: "PY",
+    priceRange: "Desde 85 USD",
+    address: { "@type": "PostalAddress", addressCountry: "PY" },
     sameAs: [TIKTOK_URL],
   };
 
@@ -47,6 +50,7 @@ export default function Home() {
         <Portafolio />
         <Proceso />
         <Cotizacion />
+        <Preguntas />
         <Contacto />
       </main>
       <Pie />

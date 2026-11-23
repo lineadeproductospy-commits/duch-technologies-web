@@ -72,7 +72,7 @@ function GraficoSeguridad() {
         <ShieldCheck className="size-8 text-cian" strokeWidth={1.5} />
       </div>
       <div className="absolute bottom-0 flex items-center gap-2 rounded-full border border-linea bg-negro/60 px-3 py-1.5 font-mono text-[0.7rem] text-texto-2">
-        <Lock className="size-3 text-cian" /> https://tunegocio.com
+        <Lock className="size-3 text-cian" /> Conexión segura · SSL
       </div>
     </div>
   );

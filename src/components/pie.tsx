@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import { ArrowUp, Mail } from "lucide-react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
@@ -67,7 +68,12 @@ export function Pie() {
       </div>
 
       <div className="contenedor mt-16 flex flex-col gap-4 border-t border-linea py-6 text-sm text-texto-3 sm:flex-row sm:items-center sm:justify-between">
-        <p>© 2026 DUCH Technologies. Todos los derechos reservados.</p>
+        <p>
+          © 2026 DUCH Technologies · Paraguay ·{" "}
+          <Link href="/privacidad" className="underline-offset-2 transition-colors duration-200 hover:text-blanco hover:underline">
+            Privacidad y términos
+          </Link>
+        </p>
         <a href="#inicio" className="group inline-flex items-center gap-2 transition-colors duration-200 hover:text-blanco">
           Volver arriba
           <span className="grid size-8 place-items-center rounded-full border border-linea-2 transition-transform duration-300 ease-[var(--ease-out)] group-hover:-translate-y-0.5">
