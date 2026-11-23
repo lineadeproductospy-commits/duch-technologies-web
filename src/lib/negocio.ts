@@ -11,13 +11,77 @@ export function linkWhatsApp(mensaje = "Hola DUCH Technologies, quiero cotizar u
 }
 
 export const SECCIONES = [
+  { id: "inicio", texto: "Inicio" },
   { id: "servicios", texto: "Servicios" },
-  { id: "portafolio", texto: "Portafolio" },
-  { id: "proceso", texto: "Proceso" },
-  { id: "cotizacion", texto: "Precios" },
-  { id: "preguntas", texto: "Preguntas" },
+  { id: "tecnologia", texto: "Tecnología e innovación" },
+  { id: "portafolio", texto: "Proyectos y portafolio" },
+  { id: "nosotros", texto: "Sobre nosotros" },
   { id: "contacto", texto: "Contacto" },
 ] as const;
+
+/** Enlaces extra del pie: secciones que existen pero no van en el menú principal */
+export const SECCIONES_EXTRA = [
+  { id: "proceso", texto: "Cómo trabajamos" },
+  { id: "cotizacion", texto: "Precios" },
+  { id: "preguntas", texto: "Preguntas frecuentes" },
+] as const;
+
+export type Servicio = {
+  id: string;
+  nombre: string;
+  descripcion: string;
+  imagen: string;
+  alt: string;
+  mensaje: string;
+};
+
+export const SERVICIOS: Servicio[] = [
+  {
+    id: "web",
+    nombre: "Desarrollo web",
+    descripcion:
+      "Páginas y sistemas web rápidos, seguros y adaptados al celular, pensados para que tus clientes te encuentren y te contacten.",
+    imagen: "/images/tecnologia/oficina.webp",
+    alt: "Estación de trabajo con tres monitores de código y paneles holográficos",
+    mensaje: "Hola DUCH Technologies, me interesa el servicio de Desarrollo web.",
+  },
+  {
+    id: "ia",
+    nombre: "Inteligencia artificial",
+    descripcion:
+      "Asistentes y herramientas con IA que responden consultas, ordenan información y reducen el trabajo repetitivo de tu equipo.",
+    imagen: "/images/tecnologia/cerebro.webp",
+    alt: "Cerebro holográfico formado por una red de puntos de luz azul",
+    mensaje: "Hola DUCH Technologies, me interesa el servicio de Inteligencia artificial.",
+  },
+  {
+    id: "automatizacion",
+    nombre: "Automatización digital",
+    descripcion:
+      "Conectamos tus herramientas para que pedidos, mensajes y reportes fluyan solos, sin copiar y pegar datos a mano.",
+    imagen: "/images/tecnologia/nube.webp",
+    alt: "Nube luminosa conectada a una red de servidores sobre una ciudad nocturna",
+    mensaje: "Hola DUCH Technologies, me interesa el servicio de Automatización digital.",
+  },
+  {
+    id: "soluciones",
+    nombre: "Soluciones tecnológicas",
+    descripcion:
+      "Sistemas a medida, paneles de gestión e infraestructura en la nube para resolver una necesidad concreta de tu negocio.",
+    imagen: "/images/tecnologia/servidores.webp",
+    alt: "Filas de servidores con luces azules en una sala tecnológica",
+    mensaje: "Hola DUCH Technologies, me interesa el servicio de Soluciones tecnológicas.",
+  },
+  {
+    id: "marketing",
+    nombre: "Marketing digital",
+    descripcion:
+      "Presencia en buscadores y redes, con páginas medibles que convierten visitas en consultas reales por WhatsApp.",
+    imagen: "/images/tecnologia/analitica.webp",
+    alt: "Panel holográfico de analítica con gráficos y métricas",
+    mensaje: "Hola DUCH Technologies, me interesa el servicio de Marketing digital.",
+  },
+];
 
 export type Proyecto = {
   nombre: string;

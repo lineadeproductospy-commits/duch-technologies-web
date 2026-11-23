@@ -20,13 +20,13 @@ function TarjetaPlan({ plan, indice }: { plan: Plan; indice: number }) {
       {plan.destacado && (
         <div
           aria-hidden="true"
-          className="absolute -inset-px rounded-[29px] bg-[conic-gradient(from_var(--ang),transparent_0deg,transparent_240deg,rgba(59,224,255,0.7)_300deg,rgba(43,107,255,0.9)_330deg,transparent_360deg)] opacity-80 motion-safe:animate-[girar_9s_linear_infinite]"
+          className="absolute -inset-px rounded-[29px] bg-[conic-gradient(from_var(--ang),transparent_0deg,transparent_240deg,rgba(0,217,255,0.7)_300deg,rgba(8,123,255,0.9)_330deg,transparent_360deg)] opacity-80 motion-safe:animate-[girar_9s_linear_infinite]"
         />
       )}
       <div
         className={`relative flex h-full flex-col rounded-[28px] border p-8 sm:p-10 ${
           plan.destacado
-            ? "border-transparent bg-[linear-gradient(150deg,#0e1118_0%,#080a0e_55%,#0a1330_100%)]"
+            ? "border-transparent bg-[linear-gradient(150deg,#111a27_0%,#0a111d_55%,#06224a_100%)]"
             : "border-linea bg-grafito/60"
         }`}
       >

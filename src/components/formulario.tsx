@@ -6,7 +6,7 @@ import { IconoWhatsApp } from "./iconos";
 import { TIPOS_PROYECTO, linkWhatsApp } from "@/lib/negocio";
 
 const campo =
-  "w-full rounded-xl border border-linea-2 bg-negro/60 px-4 py-3.5 text-blanco placeholder:text-texto-3 transition-[border-color,box-shadow] duration-200 focus:border-cian/60 focus:shadow-[0_0_0_3px_rgba(59,224,255,0.15)] focus:outline-none";
+  "w-full rounded-xl border border-linea-2 bg-negro/60 px-4 py-3.5 text-blanco placeholder:text-texto-3 transition-[border-color,box-shadow] duration-200 focus:border-cian/60 focus:shadow-[0_0_0_3px_rgba(0,217,255,0.15)] focus:outline-none";
 
 export function FormularioCotizacion() {
   const [error, setError] = useState("");
@@ -42,7 +42,7 @@ export function FormularioCotizacion() {
     <form
       onSubmit={enviar}
       noValidate
-      className="relative rounded-[28px] border border-linea bg-[linear-gradient(150deg,#0e1118_0%,#080a0e_55%,#0a1330_100%)] p-7 sm:p-9"
+      className="relative rounded-[28px] border border-linea bg-[linear-gradient(150deg,#111a27_0%,#0a111d_55%,#06224a_100%)] p-7 sm:p-9"
     >
       <p className="font-display text-2xl font-medium tracking-tight">Pide tu cotización</p>
       <p className="mt-2 text-sm text-texto-3">Completa estos datos y se abre WhatsApp con tu mensaje listo.</p>

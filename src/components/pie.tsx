@@ -6,7 +6,7 @@ import { ArrowUp, Mail } from "lucide-react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { IconoTikTok, IconoWhatsApp } from "./iconos";
-import { EMAIL, SECCIONES, TIKTOK_URL, TIKTOK_USUARIO, WHATSAPP_LEGIBLE, linkWhatsApp } from "@/lib/negocio";
+import { EMAIL, SECCIONES, SECCIONES_EXTRA, TIKTOK_URL, TIKTOK_USUARIO, WHATSAPP_LEGIBLE, linkWhatsApp } from "@/lib/negocio";
 
 export function Pie() {
   const ref = useRef<HTMLElement>(null);
@@ -27,13 +27,13 @@ export function Pie() {
               <p className="text-sm text-texto-3">Desarrollo web e innovación digital</p>
             </div>
           </div>
-          <p className="mt-6 max-w-[34ch] text-texto-2">Tu visión, nuestra tecnología.</p>
+          <p className="mt-6 max-w-[34ch] text-texto-2">Construimos hoy la tecnología del mañana.</p>
         </div>
 
         <nav aria-label="Pie de página">
           <p className="text-xs font-semibold tracking-[0.2em] text-texto-3 uppercase">Navegación</p>
           <ul className="mt-5 grid gap-3">
-            {SECCIONES.map((s) => (
+            {[...SECCIONES, ...SECCIONES_EXTRA].map((s) => (
               <li key={s.id}>
                 <a href={`#${s.id}`} className="text-texto-2 transition-colors duration-200 hover:text-blanco">
                   {s.texto}
@@ -88,7 +88,7 @@ export function Pie() {
         style={{ transform: marcaT, opacity: marcaO }}
         className="pointer-events-none -mb-[0.2em] text-center font-display text-[24vw] leading-[0.8] font-semibold tracking-[-0.06em] select-none"
       >
-        <span className="bg-[linear-gradient(180deg,rgba(243,244,246,0.14)_0%,rgba(43,107,255,0.22)_60%,transparent_100%)] bg-clip-text text-transparent">
+        <span className="bg-[linear-gradient(180deg,rgba(243,244,246,0.14)_0%,rgba(8,123,255,0.22)_60%,transparent_100%)] bg-clip-text text-transparent">
           DUCH
         </span>
       </motion.p>

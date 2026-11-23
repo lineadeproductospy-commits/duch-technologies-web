@@ -135,7 +135,7 @@ function mezclar<T>(a: T[]) {
   return a;
 }
 
-const COLORES = ["#2b6bff", "#2b6bff", "#4d84ff", "#3be0ff", "#e8eefc"];
+const COLORES = ["#087bff", "#087bff", "#4d84ff", "#00d9ff", "#e8eefc"];
 
 /* ---------------- Componente ---------------- */
 

@@ -28,9 +28,9 @@ const URL_SITIO = "https://duch-technologies-web.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(URL_SITIO),
-  title: "DUCH Technologies | Diseño y desarrollo web profesional",
+  title: "DUCH Technologies | Tecnología, desarrollo web e innovación digital",
   description:
-    "Diseñamos y desarrollamos páginas web estratégicas para empresas, microempresas y emprendedores en Paraguay. Rápidas, seguras, adaptadas al celular y conectadas a tu WhatsApp.",
+    "Construimos hoy la tecnología del mañana: desarrollo web, inteligencia artificial, automatización y marketing digital para empresas y emprendedores en Paraguay.",
   keywords: [
     "páginas web Paraguay",
     "diseño web",
@@ -41,9 +41,9 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/" },
   openGraph: {
-    title: "DUCH Technologies | Transformamos ideas en experiencias digitales",
+    title: "DUCH Technologies | Construimos hoy la tecnología del mañana",
     description:
-      "Páginas web estratégicas que elevan la presencia digital de tu negocio. Cotiza por WhatsApp.",
+      "Soluciones digitales innovadoras para impulsar negocios. Cotiza por WhatsApp.",
     url: URL_SITIO,
     siteName: "DUCH Technologies",
     type: "website",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#050607",
+  themeColor: "#050914",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

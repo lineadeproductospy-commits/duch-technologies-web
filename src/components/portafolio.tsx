@@ -154,7 +154,7 @@ export function Portafolio() {
       <div className="contenedor">
         <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
-            <p className="etiqueta">Portafolio</p>
+            <p className="etiqueta">Proyectos y portafolio</p>
             <TituloRevelado
               texto="Proyectos con *identidad* propia."
               className="mt-6 font-display text-titulo leading-[1] font-medium tracking-[-0.035em]"

@@ -21,15 +21,7 @@ function useSeccionActiva() {
       { rootMargin: "-45% 0px -50% 0px" },
     );
     els.forEach((el) => io.observe(el));
-    const inicio = document.getElementById("inicio");
-    const ioInicio = new IntersectionObserver(([e]) => e.isIntersecting && setActiva(null), {
-      rootMargin: "-45% 0px -50% 0px",
-    });
-    if (inicio) ioInicio.observe(inicio);
-    return () => {
-      io.disconnect();
-      ioInicio.disconnect();
-    };
+    return () => io.disconnect();
   }, []);
   return activa;
 }
@@ -67,7 +59,7 @@ export function Encabezado() {
   }, [abierto]);
 
   useEffect(() => {
-    const alCambiar = () => window.innerWidth >= 1024 && setAbierto(false);
+    const alCambiar = () => window.innerWidth >= 1280 && setAbierto(false);
     window.addEventListener("resize", alCambiar);
     return () => window.removeEventListener("resize", alCambiar);
   }, []);
@@ -108,7 +100,7 @@ export function Encabezado() {
               </span>
             </a>
 
-            <nav aria-label="Principal" className="hidden lg:block">
+            <nav aria-label="Principal" className="hidden xl:block">
               <ul className="flex items-center gap-1 rounded-full border border-linea bg-grafito/40 p-1 backdrop-blur-md">
                 {SECCIONES.map((s) => {
                   const esActiva = activa === s.id;
@@ -146,7 +138,7 @@ export function Encabezado() {
               <button
                 ref={botonMenu}
                 type="button"
-                className="relative grid size-11 place-items-center rounded-full border border-linea-2 bg-grafito/50 backdrop-blur-md lg:hidden"
+                className="relative grid size-11 place-items-center rounded-full border border-linea-2 bg-grafito/50 backdrop-blur-md xl:hidden"
                 aria-label={abierto ? "Cerrar menú" : "Abrir menú"}
                 aria-expanded={abierto}
                 aria-controls="menu-movil"
@@ -177,7 +169,7 @@ export function Encabezado() {
             role="dialog"
             aria-modal="true"
             aria-label="Menú"
-            className="fixed inset-0 z-40 flex flex-col bg-negro/95 pt-[72px] backdrop-blur-2xl lg:hidden"
+            className="fixed inset-0 z-40 flex flex-col bg-negro/95 pt-[72px] backdrop-blur-2xl xl:hidden"
             initial={reducir ? { opacity: 0 } : { opacity: 0, clipPath: "inset(0 0 100% 0)" }}
             animate={reducir ? { opacity: 1 } : { opacity: 1, clipPath: "inset(0 0 0% 0)" }}
             exit={
