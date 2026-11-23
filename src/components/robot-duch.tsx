@@ -2,17 +2,13 @@
 
 import Image from "next/image";
 import { motion, useMotionTemplate, useReducedMotion, useSpring } from "motion/react";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { Robot3D } from "./robot-3d";
 
 /**
- * Escenario de la mascota oficial de DUCH (portada).
- *
- * PUNTO DE INTEGRACIÓN DEL ROBOT 3D
- * El componente `DuchRobot.jsx` aún no fue entregado, así que aquí NO hay un robot inventado:
- * se muestra la plataforma holográfica con el logotipo oficial de la marca en el centro.
- * Cuando llegue el archivo, se carga con `next/dynamic` (ssr: false) dentro de <EscenaRobot />
- * en lugar de <LogoHolografico />, y se deja este mismo escenario (anillos, luz, interacción)
- * como marco y como alternativa si el navegador no tiene WebGL o en móviles de bajo rendimiento.
+ * Escenario de la mascota oficial de DUCH (portada): anillos holográficos, luz, plataforma y
+ * el robot 3D encima. Mientras el modelo carga, o si el navegador no tiene WebGL, se muestra
+ * el logotipo holográfico como alternativa.
  */
 
 function LogoHolografico({ reducir }: { reducir: boolean | null }) {
@@ -42,6 +38,10 @@ const CHIPS = [
 
 export function RobotDuch() {
   const reducir = useReducedMotion();
+  const [listo, setListo] = useState(false);
+  const [fallo, setFallo] = useState(false);
+  const alListo = useCallback(() => setListo(true), []);
+  const alFallar = useCallback(() => setFallo(true), []);
   const rx = useSpring(0, { stiffness: 90, damping: 18, mass: 0.6 });
   const ry = useSpring(0, { stiffness: 90, damping: 18, mass: 0.6 });
   const transform = useMotionTemplate`perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg)`;
@@ -84,7 +84,21 @@ export function RobotDuch() {
         />
         <div aria-hidden="true" className="absolute inset-[24%] rounded-full border border-linea-2" />
 
-        <LogoHolografico reducir={reducir} />
+        <div
+          className={`absolute inset-0 grid place-items-center transition-opacity duration-700 ${listo ? "opacity-0" : "opacity-100"}`}
+          aria-hidden={listo}
+        >
+          <LogoHolografico reducir={reducir} />
+        </div>
+        {!fallo && (
+          <div
+            role="img"
+            aria-label="Robot 3D, la mascota de DUCH Technologies"
+            className={`absolute inset-x-[-6%] inset-y-[-4%] transition-opacity duration-700 ${listo ? "opacity-100" : "opacity-0"}`}
+          >
+            <Robot3D alListo={alListo} alFallar={alFallar} />
+          </div>
+        )}
 
         {/* plataforma */}
         <div aria-hidden="true" className="absolute bottom-[8%] left-1/2 h-[16%] w-[70%] -translate-x-1/2">
