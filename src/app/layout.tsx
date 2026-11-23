@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans, Instrument_Serif, Outfit } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const display = Outfit({
@@ -59,7 +60,14 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="es" className={`${display.variable} ${cuerpo.variable} ${serif.variable} antialiased`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* Contador de visitas de Vercel Web Analytics. El script se sirve desde el propio dominio, por eso la CSP no cambia. */}
+        <Script id="vercel-analytics-init" strategy="afterInteractive">
+          {"window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };"}
+        </Script>
+        <Script src="/_vercel/insights/script.js" strategy="afterInteractive" defer />
+      </body>
     </html>
   );
 }
