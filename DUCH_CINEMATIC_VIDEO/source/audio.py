@@ -391,11 +391,60 @@ SFX.add(sweep_noise(1.0, 600, 4000, bw=.7) * env_bell(int(1.0 * SR), .6, 1.2), 3
 SFX.add(sweep_noise(.7, 3000, 9000, bw=.5) * env_bell(int(.7 * SR), .5, 1.5), 33.75, 0.08, pan=.3, rev=.6)            # barrido de luz
 SFX.add(click(3200, .03, .3), 33.55, 0.05, rev=.6)
 
+# ================================================================ VOZ EN OFF
+# Narración: voz «Damián» de ElevenLabs (generada a pedido del cliente), cortada
+# frase a frase y colocada sobre cada texto en pantalla.
+# (inicio_en_toma, fin_en_toma, posición_en_video, tempo)
+VOZ_FILE = Path(__file__).resolve().parent.parent / "assets" / "voz" / "narracion_original.mp3"
+VOZ_SEGS = [
+    (0.00, 1.16, 0.35, 1.0),    # El mundo cambió…
+    (1.70, 4.00, 2.62, 1.0),    # Pero no todos los negocios cambiaron con él.
+    (4.50, 7.56, 5.45, 1.0),    # Hoy, antes de comprar, las personas buscan, comparan…
+    (7.64, 11.58, 8.98, 1.04),  # y descubren nuevas oportunidades desde una pantalla.
+    (12.09, 14.77, 14.20, 1.0), # La tecnología no reemplazó los buenos negocios.
+    (15.06, 17.81, 18.40, 1.0), # Cambió la manera en que el mundo puede encontrarlos.
+    (18.16, 20.80, 23.75, 1.0), # Porque tener algo bueno que ofrecer es importante.
+    (21.13, 24.42, 28.10, 1.0), # Pero permitir que las personas lo descubran… también lo es.
+    (24.96, 26.51, 34.95, 1.0), # El futuro no espera.
+]
+VOZ = Bus()
+duck = np.zeros(N)
+if VOZ_FILE.exists():
+    import subprocess
+    for a, b, at, tempo in VOZ_SEGS:
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", str(a), "-to", str(b), "-i", str(VOZ_FILE),
+                              "-af", f"atempo={tempo},afade=t=in:d=0.02,areverse,afade=t=in:d=0.06,areverse",
+                              "-ac", "1", "-ar", str(SR), "-f", "s16le", "-"], capture_output=True, check=True).stdout
+        seg = np.frombuffer(raw, "<i2").astype(float) / 32768
+        seg = fftfilt(seg, lo=75, order=2)
+        seg = seg / (np.sqrt(np.mean(seg ** 2)) + 1e-9) * 0.3   # nivelado por frase
+        VOZ.add(seg, at, 1.0, rev=0.06)
+        i0, i1 = int((at - 0.12) * SR), int((at + len(seg) / SR + 0.25) * SR)
+        duck[max(0, i0):min(N, i1)] = 1
+    k = int(0.18 * SR)
+    duck = np.convolve(duck, np.ones(k) / k, mode="same")
+    # compresión suave de la voz
+    env = np.convolve(np.abs(VOZ.d[0]), np.ones(480) / 480, mode="same")
+    comp = np.where(env > 0.36, (0.36 + (env - 0.36) / 3) / np.maximum(env, 1e-9), 1.0)
+    VOZ.d *= comp
+    VOZ.r *= comp
+else:
+    print("aviso: no se encontró la voz en off; se genera la mezcla sin narración")
+
 # ================================================================ MEZCLA
 stems = {}
-for name, bus, rv in (("ambiente", AMB, (2.4, .45)), ("musica", MUS, (3.6, .9)), ("efectos", SFX, (2.8, .6))):
+for name, bus, rv in (("ambiente", AMB, (2.4, .45)), ("musica", MUS, (3.6, .9)), ("efectos", SFX, (2.8, .6)), ("voz", VOZ, (1.2, .25))):
     stems[name] = bus.d + 0.55 * reverb(bus.r, *rv)
-mix = 0.9 * stems["ambiente"] + 1.0 * stems["musica"] + 1.0 * stems["efectos"]
+g_mus = 1 - 0.62 * duck   # ≈ −8.5 dB bajo la voz
+g_amb = 1 - 0.55 * duck
+g_sfx = 1 - 0.25 * duck
+mix = 0.9 * stems["ambiente"] * g_amb + 1.0 * stems["musica"] * g_mus + 1.0 * stems["efectos"] * g_sfx + 1.0 * stems["voz"]
+bed = mix - stems["voz"]
+for a_, b_, at, tp in VOZ_SEGS:
+    i0, i1 = int((at + .1) * SR), int((at + (b_ - a_) / tp - .1) * SR)
+    rv = 20 * np.log10(np.sqrt(np.mean(stems["voz"][:, i0:i1] ** 2)) + 1e-9)
+    rb = 20 * np.log10(np.sqrt(np.mean(bed[:, i0:i1] ** 2)) + 1e-9)
+    print(f"voz {at:5.2f}s: voz {rv:6.1f} dB · fondo {rb:6.1f} dB · diferencia {rv - rb:+5.1f} dB")
 mix = fftfilt(mix, lo=28, order=2)
 fade = np.interp(T, [0, 0.02, DUR - 0.6, DUR], [0, 1, 1, 0])
 mix *= fade
@@ -414,6 +463,7 @@ def write(path, x):
 
 
 for name, s in stems.items():
-    write(OUT / f"stem_{name}.wav", norm(s * fade, 0.89))
+    if np.max(np.abs(s)) > 0:
+        write(OUT / f"stem_{name}.wav", norm(s * fade, 0.89))
 write(OUT / "banda_sonora_mezcla.wav", mix)
 print("audio listo:", OUT)

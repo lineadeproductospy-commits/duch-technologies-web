@@ -8,19 +8,21 @@ encontrar negocios. DUCH Technologies aparece solo al final, como firma.
 | Archivo final | `video/duch_cinematic_final.mp4` |
 | Formato | 1080 × 1920 (9:16), 30 fps, 38 s |
 | Vídeo | H.264 High 4.2, yuv420p, BT.709, `faststart` |
-| Audio | AAC 256 kbps, 48 kHz estéreo, normalizado a −14 LUFS / −1.5 dBTP |
+| Audio | AAC 256 kbps, 48 kHz estéreo, normalizado a −14 LUFS / −1.5 dBTP, con voz en off |
 | Destino | Instagram Reels, TikTok y YouTube Shorts (sin barras ni recortes) |
 
 ## Cómo está hecho
 
-Todo se produjo en local, sin metraje real ni servicios externos de generación.
-Las escenas son ilustraciones vectoriales y procedurales animadas: no son
-grabaciones reales.
+La imagen, la música y los efectos se produjeron en local, sin metraje real ni
+servicios externos de generación. Las escenas son ilustraciones vectoriales y
+procedurales animadas: no son grabaciones reales. La única excepción, pedida por
+el cliente, es la **voz en off**, generada con ElevenLabs (ver más abajo).
 
 | Capa | Herramienta | Archivo |
 |---|---|---|
 | Imagen | Canvas 2D en Chromium headless; cada cuadro sale de `renderFrame(t)` y siempre da el mismo resultado | `source/scene.html` |
 | Captura | Playwright, 4 navegadores en paralelo, JPEG calidad 95 | `source/render_frames.mjs` |
+| Voz en off | ElevenLabs, voz «Damián» (grave, latinoamericana neutra), modelo eleven_v4, una sola toma | `assets/voz/narracion_original.mp3` |
 | Sonido | Síntesis con NumPy: piano, pads, arpegios, percusión, ambiente urbano, efectos y reverberación por convolución | `source/audio.py` |
 | Montaje | FFmpeg: encode H.264/AAC y loudnorm | `source/build.sh` |
 
@@ -49,8 +51,22 @@ después sí.
 - **13.3–32 s**: pulso a 120 BPM (Am–F–C–G) con arpegio, bajo, kick y hi-hat. La intensidad sube por compás. Clics de tecleo y de toque, sonidos de los paneles, el aviso de pedido y destellos de la red. Termina en un riser.
 - **32–38 s**: impacto, la órbita, un barrido de luz y un acorde de Do mayor con campanas. Fade final.
 
+## Voz en off
+
+La narración es una sola toma de ElevenLabs (voz «Damián», acento latinoamericano
+neutro). `audio.py` la corta frase a frase según la tabla `VOZ_SEGS` y coloca cada
+frase sobre su texto en pantalla. La frase «y descubren nuevas oportunidades…»
+va al 104 % de velocidad para caber antes del impacto de los 13,3 s. Cada frase se
+nivela y se comprime. Mientras habla el narrador, la música baja unos 8,5 dB y el
+ambiente unos 7 dB. La voz queda entre 7 y 11 dB por encima del fondo.
+
+Para cambiar de voz, genera una toma nueva con el mismo texto, reemplaza
+`assets/voz/narracion_original.mp3` y ajusta los tiempos de `VOZ_SEGS` (los cortes
+se encuentran con `ffmpeg -af silencedetect=noise=-40dB:d=0.25`). Si se borra ese
+archivo, el video se genera sin narración.
+
 Los stems separados están en `assets/audio/`, para remezclar en cualquier editor:
-`stem_ambiente.wav`, `stem_musica.wav`, `stem_efectos.wav` y la mezcla
+`stem_ambiente.wav`, `stem_musica.wav`, `stem_efectos.wav`, `stem_voz.wav` y la mezcla
 `banda_sonora_mezcla.wav`.
 
 ## Reproducir y volver a renderizar
@@ -87,5 +103,5 @@ node render_frames.mjs --out ../build/stills --stills 1,6.5,19.5,36
 ## Notas
 
 - El negocio («Panadería La Esquina») y los demás comercios de la red son ficticios y solo ilustran la idea.
-- No hay voz en off sintética: la narración es tipográfica, como en un documental.
+- La narración se escucha y también se lee: los textos en pantalla funcionan como subtítulos para quien mira sin sonido.
 - Fotogramas clave de referencia en `assets/stills/`.
