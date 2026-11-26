@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Producción audiovisual independiente (no forma parte del sitio)
+    "DUCH_CINEMATIC_VIDEO/**",
   ]),
 ]);
 
