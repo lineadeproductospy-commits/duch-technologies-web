@@ -148,7 +148,7 @@ function Ficha({ p, indice, className = "" }: { p: Proyecto; indice: number; cla
 }
 
 export function Portafolio() {
-  const [magali, brasa, salon] = PROYECTOS;
+  const [magali, brasa, salon, ...nuevos] = PROYECTOS;
   return (
     <section id="portafolio" className="relative py-28 md:py-40">
       <div className="contenedor">
@@ -161,7 +161,7 @@ export function Portafolio() {
             />
           </div>
           <p className="max-w-[40ch] text-texto-2 lg:pb-3">
-            Una invitación publicada y dos diseños para rubros muy distintos. Cada uno tiene su propio
+            Una invitación publicada y cinco diseños para rubros muy distintos. Cada uno tiene su propio
             estilo, porque cada negocio es diferente.
           </p>
         </div>
@@ -192,6 +192,31 @@ export function Portafolio() {
             <Ficha p={salon} indice={2} className="lg:sticky lg:top-40" />
           </div>
         </div>
+
+        {/* 04 en adelante — se alternan las mismas tres composiciones */}
+        {nuevos.map((p, i) => {
+          const indice = i + 3;
+          const forma = i % 3;
+          if (forma === 1) {
+            return (
+              <div key={p.nombre} className="mt-28 md:mt-40">
+                <Escena p={p} proporcion="aspect-[4/5] sm:aspect-[16/10] lg:aspect-[16/8]" />
+                <Ficha p={p} indice={indice} className="mt-10 lg:max-w-[60%]" />
+              </div>
+            );
+          }
+          const derecha = forma === 2;
+          return (
+            <div key={p.nombre} className="mt-28 grid gap-10 md:mt-40 lg:grid-cols-12 lg:gap-16">
+              <div className={`lg:col-span-7 ${derecha ? "lg:order-2" : ""}`}>
+                <Escena p={p} proporcion="aspect-[4/5] sm:aspect-[5/5] lg:aspect-[6/7]" />
+              </div>
+              <div className={`lg:col-span-5 ${derecha ? "lg:order-1" : ""}`}>
+                <Ficha p={p} indice={indice} className="lg:sticky lg:top-40" />
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

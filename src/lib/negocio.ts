@@ -137,6 +137,42 @@ export const PROYECTOS: Proyecto[] = [
     alt: "Página de la peluquería Salón Lapacho en tonos vino y dorado",
     escena: { fondo: "#2b1020", luz: "#c9a46a", tinta: "clara" },
   },
+  {
+    nombre: "Mueblería Lapacho",
+    rubro: "Mueblería",
+    descripcion:
+      "Catálogo de muebles de madera con categorías, galería de ambientes y un pedido que se confirma por WhatsApp con el costo de envío.",
+    estado: "concepto",
+    demo: "/proyectos/muebleria-lapacho/index.html",
+    imagen: "/images/portafolio/muebleria.webp",
+    imagenMovil: "/images/portafolio/muebleria-movil.webp",
+    alt: "Página de la Mueblería Lapacho con un living de madera y el título Muebles de madera hechos para durar",
+    escena: { fondo: "#efe7db", luz: "#9a6a40", tinta: "oscura" },
+  },
+  {
+    nombre: "Propiedades Tajy",
+    rubro: "Inmobiliaria",
+    descripcion:
+      "Buscador de casas, departamentos y terrenos por zona y presupuesto, con la ficha de cada propiedad y consulta por WhatsApp con su código.",
+    estado: "concepto",
+    demo: "/proyectos/propiedades-tajy/index.html",
+    imagen: "/images/portafolio/inmobiliaria.webp",
+    imagenMovil: "/images/portafolio/inmobiliaria-movil.webp",
+    alt: "Página de la inmobiliaria Propiedades Tajy con Asunción al atardecer",
+    escena: { fondo: "#14271e", luz: "#b08d57", tinta: "clara" },
+  },
+  {
+    nombre: "Mburucuyá Dental",
+    rubro: "Clínica odontológica",
+    descripcion:
+      "Tratamientos con precios claros, el equipo de profesionales y turnos que se piden por WhatsApp con el mensaje ya armado.",
+    estado: "concepto",
+    demo: "/proyectos/clinica-mburucuya/index.html",
+    imagen: "/images/portafolio/clinica.webp",
+    imagenMovil: "/images/portafolio/clinica-movil.webp",
+    alt: "Página de la clínica Mburucuyá Dental con la recepción y el título Una sonrisa sana",
+    escena: { fondo: "#e9efe9", luz: "#2f514b", tinta: "oscura" },
+  },
 ];
 
 export const PASOS = [
